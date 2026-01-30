@@ -44,4 +44,58 @@ El cómputo en la nube ha transformado la infraestructura de TI, permitiendo a l
 | **Tiempo de Provisión** | **Minutos:** Tiempo necesario para levantar la instancia y el SO. | **Milisegundos:** El código está listo para ejecutarse casi instantáneamente. | **Milisegundos:** Rápida ejecución, aunque puede presentar latencia inicial. |
 | **Modelo de Costos** | **Por tiempo de uso:** Se paga por segundos u horas que la instancia esté encendida. | **Por ejecución:** Se paga por número de peticiones y duración del cómputo. | **Consumo:** Pago por ejecución y recursos. Opción de plan App Service. |
 | **Gestión (Ops)** | **Alta:** El usuario administra parches de SO, redes y seguridad. | **Nula/Baja:** El proveedor gestiona toda la infraestructura (NoOps). | **Nula/Baja:** Gestión abstraída, enfoque en el código. |
-| **Casos de Uso** | Aplicaciones monolíticas, bases de datos, migraciones "Lift & Shift". | Procesamiento de archivos, backends de APIs REST, tareas programadas. | Integraciones con Office 365, procesamiento de eventos en
+| **Casos de Uso** | Aplicaciones monolíticas, bases de datos, migraciones "Lift & Shift". | Procesamiento de archivos, backends de APIs REST, tareas programadas. | Integraciones con Office 365, procesamiento de eventos en Azure. |
+
+---
+
+## 4. Orquestadores de Contenedores
+
+* **Funciones Principales:**
+    * Aprovisionamiento y despliegue (selección del host).
+    * Escalado de instancias según la demanda.
+    * Descubrimiento de servicios y balanceo de carga.
+    * Monitoreo de salud (Health Checks) y reinicio automático.
+* **Ventajas y Beneficios:**
+    * **Alta Disponibilidad:** Garantiza que la aplicación permanezca en línea ante fallos de nodos.
+    * **Eficiencia de Recursos:** Maximiza el uso del hardware mediante distribución inteligente.
+    * **Portabilidad:** Abstrae la infraestructura permitiendo mover clústeres entre nubes.
+
+## 5. Gestión con Docker Swarm
+
+### 5.1. Gestión de Clústeres (Arquitectura)
+* **Manager Nodes:** Mantienen el estado del clúster y programan servicios usando el algoritmo Raft.
+* **Worker Nodes:** Ejecutan los contenedores (tareas) asignados por los Managers.
+* **Comandos:** `docker swarm init` para inicializar y `docker swarm join-token` para unir nodos.
+
+### 5.2. Administración de Servicios
+* **Despliegue Declarativo:** Se define el estado deseado (ej. `docker service create --replicas 3`) y Swarm lo mantiene.
+* **Actualizaciones (Rolling Updates):** Permite actualizar imágenes progresivamente sin tiempo de inactividad con `docker service update`.
+
+---
+
+## 6. Ejemplo de despliegues
+
+### 6.1 Aplicación práctica en IaaS (Máquina Virtual en Azure)
+Se realizó un despliegue real en una MV Linux, configurando manualmente el SO, red y Docker para una aplicación Django. Este escenario es equivalente al uso de Amazon EC2.
+> **Referencia:** app service.pdf
+
+### 6.2 Ejemplo de aplicación práctica en PaaS (Azure App Service)
+Se utilizó Azure App Service con integración continua (CI) mediante GitHub. El proveedor abstrae la gestión del SO, permitiendo enfocarse únicamente en el código.
+> **Referencia:** DespligueRASCUNL_AZURE.pdf
+
+---
+
+## 7. Conclusiones
+1. Existe una clara tendencia hacia la abstracción; EC2 ofrece control, mientras que Lambda y Azure Functions ofrecen velocidad de desarrollo y eficiencia de costos.
+2. La elección entre IaaS y FaaS depende de la arquitectura de la aplicación; los microservicios modernos se benefician de FaaS, mientras que aplicaciones legacy requieren IaaS.
+3. Docker Swarm democratiza la orquestación por su baja curva de aprendizaje, siendo ideal para equipos que buscan simplicidad.
+
+---
+
+## 8. Referencias
+* **[1]** P. Mell and T. Grance, "[The NIST Definition of Cloud Computing](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf)," NIST, 2011.
+* **[2]** C. Pahl, "Containerization and the PaaS Cloud," IEEE Cloud Computing, 2015.
+
+**Material Adicional:**
+* Diapositivas: Evolución_y_Orquestación_de_Infraestructura.pdf
+* Video: Desmitificando_la_Nube.mp4
